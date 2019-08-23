@@ -40,10 +40,10 @@ func (l *FileLogger) Init() {
 		return
 	}
 
-	logrus.SetFormatter(&MixFormatter{})
-	logrus.SetReportCaller(true)
-	logrus.SetOutput(fp)
-	logrus.SetLevel(logrus.Level(l.Level))
+	l.SetFormatter(&MixFormatter{})
+	l.SetReportCaller(true)
+	l.SetOutput(fp)
+	l.SetLevel(logrus.Level(l.Level))
 }
 
 // Trace shortcut
@@ -64,6 +64,11 @@ func (l *FileLogger) Info(msg string, data map[string]interface{}) {
 // Warn shortcut
 func (l *FileLogger) Warn(msg string, data map[string]interface{}) {
 	l.WithFields(logrus.Fields(data)).Warn(msg)
+}
+
+// Warning shortcut
+func (l *FileLogger) Warning(msg string, data map[string]interface{}) {
+	l.WithFields(logrus.Fields(data)).Warning(msg)
 }
 
 // Error shortcut
