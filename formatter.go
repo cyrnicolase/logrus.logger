@@ -11,8 +11,9 @@ import (
 )
 
 // 默认时间格式
-var defaultTimestampForamt = "2006-02-03 15:04:05"
+var defaultTimestampForamt = "2006-01-02 15:04:05"
 
+// MixFormatter 文本、Json混合模式
 type MixFormatter struct {
 	// 时间格式 默认使用 2006-02-03 15:04:05
 	TimestampFormat string
