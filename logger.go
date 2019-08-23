@@ -17,18 +17,14 @@ type FileLogger struct {
 
 	// Level 日志记录起始等级
 	Level uint32
-
-	// IsReportCaller 是否输出记录日志文件位置
-	IsReportCaller bool
 }
 
 // NewFileLogger 生成新的日志对象
-func NewFileLogger(filename string, level uint32, isCaller bool) *FileLogger {
+func NewFileLogger(filename string, level uint32) *FileLogger {
 	return &FileLogger{
 		logrus.New(),
 		filename,
 		level,
-		isCaller,
 	}
 }
 
@@ -41,7 +37,6 @@ func (l *FileLogger) Init() {
 	}
 
 	l.SetFormatter(&MixFormatter{})
-	l.SetReportCaller(true)
 	l.SetOutput(fp)
 	l.SetLevel(logrus.Level(l.Level))
 }
