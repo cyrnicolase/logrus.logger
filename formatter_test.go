@@ -20,7 +20,7 @@ func TestFormat(t *testing.T) {
 	entry.Level = logrus.Level(4)
 
 	jsonData := `{"foo":"bar"}`
-	testOutput := fmt.Sprintf("%s %s: [%s] %s\n", tt.Format("2006-01-02 15:04:05"), level, message, jsonData)
+	testOutput := fmt.Sprintf("%s %s %s [%s] %s\n", tt.Format("2006-01-02 15:04:05"), level, "", message, jsonData)
 	output, _ := formatter.Format(entry)
 
 	if testOutput != string(output) {

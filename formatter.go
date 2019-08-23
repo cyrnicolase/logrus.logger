@@ -32,6 +32,10 @@ func (f *MixFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	t := entry.Time.Format(timestampFormat)
 	level := strings.ToUpper(entry.Level.String())
 	message := entry.Message
+	funcVal := ""
+	if entry.HasCaller() {
+		funcVal = fmt.Sprintf("%s#%d:%s", entry.Caller.File, entry.Caller.Line, entry.Caller.Function)
+	}
 
 	b := &bytes.Buffer{}
 	encoder := json.NewEncoder(b)
@@ -40,7 +44,7 @@ func (f *MixFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 	}
 
 	jsonData := strings.Trim(string(b.Bytes()), "\n")
-	result := fmt.Sprintf("%s %s: [%s] %s\n", t, level, message, jsonData)
+	result := fmt.Sprintf("%s %s %s [%s] %s\n", t, level, funcVal, message, jsonData)
 
 	return []byte(result), nil
 }
