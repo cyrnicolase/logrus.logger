@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/sirupsen/logrus"
 )
@@ -26,9 +25,6 @@ func (f *MixFormatter) Format(entry *logrus.Entry) ([]byte, error) {
 		timestampFormat = defaultTimestampForamt
 	}
 
-	if entry.Time.IsZero() {
-		entry.Time = time.Now()
-	}
 	t := entry.Time.Format(timestampFormat)
 	level := strings.ToUpper(entry.Level.String())
 	message := entry.Message
