@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -20,29 +19,33 @@ type FileLogger struct {
 }
 
 // NewFileLogger 生成新的日志对象
-func NewFileLogger(filename string, level uint32) *FileLogger {
+func NewFileLogger(filename string, level uint32) (*FileLogger, error) {
 	l := &FileLogger{
 		logrus.New(),
 		filename,
 		level,
 	}
 
-	l.Init()
+	err := l.Init()
+	if nil != err {
+		return nil, err
+	}
 
-	return l
+	return l, nil
 }
 
 // Init 初始化
-func (l *FileLogger) Init() {
+func (l *FileLogger) Init() error {
 	fp, err := os.OpenFile(l.Logfile, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0666)
 	if nil != err {
-		fmt.Println("日志文件打开失败")
-		return
+		return ErrOpenLogFileFail{l.Logfile, err}
 	}
 
 	l.SetFormatter(&MixFormatter{})
 	l.SetOutput(fp)
 	l.SetLevel(logrus.Level(l.Level))
+
+	return nil
 }
 
 // Trace shortcut
