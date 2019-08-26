@@ -21,11 +21,15 @@ type FileLogger struct {
 
 // NewFileLogger 生成新的日志对象
 func NewFileLogger(filename string, level uint32) *FileLogger {
-	return &FileLogger{
+	l := &FileLogger{
 		logrus.New(),
 		filename,
 		level,
 	}
+
+	l.Init()
+
+	return l
 }
 
 // Init 初始化
